@@ -11,16 +11,6 @@ typedef AtRGB (*FuseOperater)(const AtRGB &a, const AtRGB &b, float w);
 
 AI_SHADER_NODE_EXPORT_METHODS(FuseShadingMtd);
 
-/*
-export ARNOLD_PATH='/mnt/usr/Arnold-4.2.2.0-linux'
-
-
-g++ -o /mnt/public/home/john/git/shader/blended/tmp/shader.os -c -fPIC -D_LINUX -D_DEBUG -I$ARNOLD_PATH/include -I/mnt/public/home/john/arnoldshader_src/alShaders-src-0.3.3/common  /mnt/public/home/john/git/shader/blended/enamel.cpp ;
-g++ -o /mnt/public/home/john/git/shader/blended/tmp/shader.so -shared /mnt/public/home/john/git/shader/blended/tmp/shader.os -L$ARNOLD_PATH/bin -lai;
-
-export ARNOLD_SHADERLIB_PATH='/mnt/public/home/john/git/shader/blended/tmp'
-*/
-
 const char* BLEND_MODES[] = {"Mix", "Add", "Multiply", "Max", "Min"};
 
 node_parameters
@@ -98,7 +88,7 @@ node_finish
    }
 }
 
-
+//TODO: a more elegant way rather than repeating
 shader_evaluate
 {
    FuseShadingData* data = (FuseShadingData*)AiNodeGetLocalData(node);
@@ -120,8 +110,6 @@ shader_evaluate
          sg->out.RGBA.a = 1.f;
       return;
    }
-
-
 
    int blend_layer = getBlendLayer(sg);
    bool respect_layer = data->blend_layer;
@@ -185,13 +173,6 @@ shader_evaluate
          if (AiTraceProbe(&ray, &hitpoint)) {
             bool layer_result = shouldBlendLayer(blend_layer, respect_layer, &hitpoint);
 
-            // bool pref_result = true;
-            // if (data->min_blend_dist!=0.f){
-            //    AtPoint Pref_hit;
-            //    if (AiUserGetPntFunc(REST_ATTR_NAME, &hitpoint, &Pref_hit))
-            //       pref_result = AiV3Length(Pref-Pref_hit) > data->min_blend_dist;
-            // }
-            
             if(!layer_result)
                continue;
 
