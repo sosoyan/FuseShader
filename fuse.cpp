@@ -1,7 +1,7 @@
 #include <ai.h>
 #include <algorithm>
 #include <string.h>
-#include <alUtil.h>
+#include "alUtil.h"
 #include <assert.h>
 #include <stdio.h>
 #include "fuse.h"

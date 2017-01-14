@@ -1,7 +1,7 @@
 #include <ai.h>
 #include <algorithm>
 #include <string.h>
-#include <alUtil.h>
+#include "alUtil.h"
 #include <assert.h>
 #include <stdio.h>
 #include "fuse.h"
@@ -48,6 +48,7 @@ shader_evaluate
    FuseData* data = (FuseData*)AiNodeGetLocalData(node);
 
    if (data->shader == NULL)
+   {
       if (data->mode != kVisRadius){
          sg->out.RGBA = data->shader_value;
          return;
@@ -56,6 +57,7 @@ shader_evaluate
          sg->out.RGBA = AI_RGBA_BLACK;
          return;
       }
+    }
 
    if (data->enable == false || data->radius == 0.0f || !(sg->Rt & AI_RAY_CAMERA))
    {
